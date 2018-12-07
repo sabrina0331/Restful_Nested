@@ -8,18 +8,22 @@ import { HttpService } from './http.service';
 })
 
 export class AppComponent implements OnInit {
-    tasks: any;
+    tasks: any = [];
     task: any;
-    display: any;
+    display = false;
+    newTask: any;
+    thisTask: any;
+
     
 
     constructor(private _httpService: HttpService){ 
-      this.display = false;
+      // this.display = false;
     }
      
     ngOnInit(){
-      this.getTasksFromService();
-      // this.onButtonClickEvent();
+      this.newTask = {title: "", description:""};
+      this.thisTask = {id: "",title:"", description:""};
+      
     }
     
     getTasksFromService(){
@@ -29,12 +33,36 @@ export class AppComponent implements OnInit {
           this.tasks = data;
         })
     }
-    info(task){
-      this.task = task;
+
+
+    onSubmit(){
+      let Observable = this._httpService.addTask(this.newTask);
+      Observable.subscribe(data => {
+        this.newTask = {title: "", description: ""}
+        this.getTasksFromService();
+      })
+    }
+
+    deleteTask(id){
+      let Observable = this._httpService.deleteTask(id);
+      Observable.subscribe(data =>{
+        this.getTasksFromService();
+      });
+    }
+    
+    editTask(task){
+      this.thisTask = {
+        _id: task._id,
+        title: task.title,
+        description: task.description,
+      }
       this.display = true;
     }
-  
-    // onButtonClickEvent(tasks: any): void{
-    //   console.log(`click event is working with num param: ${tasks.title}`);
-    // }
+    onEdit(thisTask,event){
+      event.preventDefault();
+      let Observable = this._httpService.updateTask(thisTask);
+      Observable.subscribe(thisTask);
+      this.getTasksFromService();
+    }
 }
+
