@@ -9,11 +9,17 @@ import { HttpService } from './http.service';
 
 export class AppComponent implements OnInit {
     tasks: any;
+    task: any;
+    display: any;
+    
 
-    constructor(private _httpService: HttpService){}
-      
+    constructor(private _httpService: HttpService){ 
+      this.display = false;
+    }
+     
     ngOnInit(){
       this.getTasksFromService();
+      // this.onButtonClickEvent();
     }
     
     getTasksFromService(){
@@ -23,4 +29,12 @@ export class AppComponent implements OnInit {
           this.tasks = data;
         })
     }
+    info(task){
+      this.task = task;
+      this.display = true;
+    }
+  
+    // onButtonClickEvent(tasks: any): void{
+    //   console.log(`click event is working with num param: ${tasks.title}`);
+    // }
 }

@@ -1,13 +1,22 @@
 
-<h1>Restful Tasks API </h1>
-<h2>All the tasks: </h2>
-<ol>
-  <li *ngFor="let task of tasks">{{ task.title }} </li>
-</ol>
+<div style="text-align:center">
+  <h1>
+    Restful Tasks API
+  </h1>
+</div>
+<div class="sub-root">
+  <button id="clickB" (click)="info(task)">Get all tasks</button>
+</div>
+  <div *ngIf= "display == true ">
+    <div *ngFor="let task of tasks">
+      <h3>{{task.title}}</h3>
+      <button id="eachInfo" (click)="info(task)">Show</button>
+    </div>
+  </div>
 
-<h3>The Third Task:</h3>
-<ul *ngFor="let task of tasks; let i = index" >
-  <li *ngIf= "i ==2">{{task.title}}</li>
-</ul>
+  <div id="green-box">
+    <p>{{ task.title }}</p>
+    <p>{{ task.description}}</p>
+  </div>
 
 <router-outlet></router-outlet>
