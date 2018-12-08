@@ -9,20 +9,21 @@ import { HttpService } from './http.service';
 
 export class AppComponent implements OnInit {
     tasks: any = [];
-    task: any;
+    task: any =[];
     display = false;
     newTask: any;
     thisTask: any;
-
-    
+    show = false;
+  
 
     constructor(private _httpService: HttpService){ 
-      // this.display = false;
+      this.display = false;
+      this.show = false;
     }
      
     ngOnInit(){
       this.newTask = {title: "", description:""};
-      this.thisTask = {id: "",title:"", description:""};
+      // this.thisTask = {id: "",title:"", description:""};
       
     }
     
@@ -49,6 +50,15 @@ export class AppComponent implements OnInit {
         this.getTasksFromService();
       });
     }
+
+    showTask(task){
+     let showOne =this._httpService.showOne(task);
+     showOne.subscribe(data =>{
+       console.log("Got on task",data)
+       this.task = data;
+     });
+      this.show = true;
+    }
     
     editTask(task){
       this.thisTask = {
@@ -58,6 +68,7 @@ export class AppComponent implements OnInit {
       }
       this.display = true;
     }
+    
     onEdit(thisTask,event){
       event.preventDefault();
       let Observable = this._httpService.updateTask(thisTask);

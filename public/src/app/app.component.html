@@ -1,53 +1,51 @@
 <div style="text-align:center">
-  <h1>
-    Restful Tasks API
-  </h1>
+    <h3>Restful Task API</h3>
 </div>
-
-
-
- <div id="create">
-  <form (submit)="onSubmit()">
-    <label for="title">Creat Task Title:
-      <input type="text" name="newTask.title" [(ngModel)]="newTask.title">
-    </label><br>
-
-    <label for="description">Create Task Description:
-      <input type="text" name="newTask.description" [(ngModel)]="newTask.description">
-    </label><br>
-    
-    <input type="submit" value="Create Task" />
-  </form>
-</div>
-
-
-<div id="showOne" *ngIf="display == true">
-  <form (submit)="onEdit(thisTask, $event)">
-    <p>Edit a Task</p>
-    Task title:
-    <input type="text" name="thisTask.title" [(ngModel)]="thisTask.title" [value]="thisTask.title" />
-    <br> Task description:
-    <input type="text" name=" thisTask.description" [(ngModel)]="thisTask.description" [value]="thisTask.description" />
-    <br>
-    <input type="submit" value="Update Task" />
-  </form>
-</div> 
-
-
-
-
+<app-task *ngIf="task" [taskToShow]='task'></app-task>
 
 <button  (click)="getTasksFromService()" id="clickB">Get all tasks</button>
-<div id="each">
   <div *ngFor="let task of tasks">
     <div id="each_info">
       <h3>{{ task.title }}</h3>
-      <!-- <h3>{{ task.description }}</h3> -->
+      <button id="showbutton" (click)="showTask(task)">Show</button>
       <button id="editbutton" (click)="editTask(task)">Edit</button>
       <button id="deletebutton" (click)="deleteTask(task['_id'])">Delete</button>
     </div>
   </div>
-</div> 
+
+
+<div id="body">
+    <div id="create">
+      <form (submit)="onSubmit()">
+        <label for="title">Creat Task Title:
+          <input type="text" name="newTask.title" [(ngModel)]="newTask.title">
+        </label><br>
+  
+        <label for="description">Create Task Description:
+          <input type="text" name="newTask.description" [(ngModel)]="newTask.description">
+        </label><br>
+        
+        <input type="submit" value="Create Task" />
+      </form>
+    </div>
+    
+    <div id="showOne" *ngIf="show == true">
+      <app-task *ngIf="task" [taskToShow]='task'></app-task>
+    </div> 
+  
+    <div id="editOne" *ngIf="display == true">
+      <form (submit)="onEdit(thisTask, $event)">
+        <p>Edit a Task</p>
+        Task title:
+        <input type="text" name="thisTask.title" [(ngModel)]="thisTask.title" [value]="thisTask.title" />
+        <br> Task description:
+        <input type="text" name=" thisTask.description" [(ngModel)]="thisTask.description" [value]="thisTask.description" />
+        <br>
+        <input type="submit" value="Update Task" />
+      </form>
+    </div> 
+  </div>
+
 
 
 
